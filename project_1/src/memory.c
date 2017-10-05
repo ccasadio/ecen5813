@@ -18,7 +18,8 @@
 *
 */
 
-#include "include/common/memory.h"
+#include "memory.h"
+#include <stdlib.h>
 
 uint8_t * my_memmove(uint8_t * src, uint8_t * dst, size_t length)
 {
@@ -89,14 +90,12 @@ uint8_t * my_reverse(uint8_t * src, size_t length)
 	}
 }
 
-/* allocating a set block of memory */
-
 int32_t * reserve_words(size_t length)
 {
-	return 0;
+	return (int32_t *) malloc(length);
 }
 
 void free_words(int32_t * src)
 {
-
+	free(src);
 }

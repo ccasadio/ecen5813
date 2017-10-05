@@ -19,5 +19,5 @@
 
 void main()
 {
-	
+	project1();
 }
