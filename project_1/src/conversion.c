@@ -18,8 +18,8 @@
 *
 */
 
-#include "include/common/conversion.h"
-#include "include/common/memory.h"
+#include "conversion.h"
+#include "memory.h"
 
 const uint8_t ascii_0 = 48;
 const uint8_t ascii_A = 65;
