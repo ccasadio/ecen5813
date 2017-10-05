@@ -1,0 +1,35 @@
+ecen5813 commenting template
+
+
+/*****************************************************************************
+* Copyright (C) 2017 by Christian Casadio
+*
+* Redistribution, modification or use of this software in source or binary
+* forms is permitted as long as the files maintain this copyright. Users are
+* permitted to modify this and use it as they wish. Christian Casadio is not 
+* liable for any misuse of or damages caused by use of this material.
+*
+*****************************************************************************/
+/**
+* @file 
+* @brief 
+*
+* 
+* 
+*
+* @author Christian Casadio
+* @date 
+* @version 1.0
+*
+*/
+
+
+/**
+ * @brief function to 
+ * 
+ * This function 
+ *
+ * @param name description
+ *
+ * @return void
+ */
