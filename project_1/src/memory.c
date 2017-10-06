@@ -20,20 +20,21 @@
 
 #include "memory.h"
 #include <stdlib.h>
+#include <stdio.h>
 
 uint8_t * my_memmove(uint8_t * src, uint8_t * dst, size_t length)
 {
 	uint8_t i;
 
 	/* if pointer addresses are the same then we're already done */
-	if(&src == &dst)
+	if(src == dst)
 	{
 		return dst;
 	}
 	
 
 	/* choose whether to work backwards or forwards to avoid corrupting overlapping data */
-	if(&src > &dst)
+	if(src > dst)
 	{
 		for(i = 0; i < length; i++)
 		{
@@ -85,8 +86,8 @@ uint8_t * my_reverse(uint8_t * src, size_t length)
 	for(i = 0; i < length/2; i++)
 	{
 		tmp = *(src + i);
-		*(src + i) = *(src + length - i);
-		*(src + length - i) = tmp;
+		*(src + i) = *(src + length - 1 - i);
+		*(src + length - 1 - i) = tmp;
 	}
 	return src;
 }

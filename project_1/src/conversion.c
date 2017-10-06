@@ -23,10 +23,26 @@
 
 const uint8_t ascii_0 = 48;
 const uint8_t ascii_A = 65;
+const uint8_t ascii_neg = 45;
 
 uint8_t my_itoa(int32_t data, uint8_t * ptr, uint32_t base)
 {
 	uint8_t length = 0;
+
+	if(data == 0)
+	{
+		*ptr = ascii_0;
+		*(ptr + 1) = 0;
+		return 1;
+	}
+
+	if(data < 0)
+	{
+		//negative
+		*ptr = ascii_neg;
+		ptr++;
+		data *= -1;
+	}
 
 	while(data > 0)
 	{
@@ -44,21 +60,29 @@ uint8_t my_itoa(int32_t data, uint8_t * ptr, uint32_t base)
 	}
 
 	/* reverse */
-	my_reverse(ptr, length - 1);
+	my_reverse(ptr, length);
 
 	/* add null terminating character */
 	*(ptr + length) = 0;
 
-	return length - 1;
+	return length;
 }
 
 int32_t my_atoi(uint8_t * ptr, uint8_t digits, uint32_t base)
 {
-	uint32_t number = 0;
+	int32_t number = 0;
 	uint32_t temp;
+	int8_t isNeg = 1;
 
 	uint8_t i;
 	uint8_t j;
+
+	if(*ptr == ascii_neg)
+	{
+		ptr++;
+		isNeg = -1;
+	}
+
 	for(i = 0; i < digits; i++)
 	{
 		temp = *(ptr + i);
@@ -82,7 +106,7 @@ int32_t my_atoi(uint8_t * ptr, uint8_t digits, uint32_t base)
 		number += temp;
 	}
 
-	return number;
+	return number*isNeg;
 }
 
 

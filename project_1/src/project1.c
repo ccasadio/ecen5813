@@ -33,7 +33,7 @@ int8_t test_data1() {
 
   printf("\ntest_data1();\n");
   ptr = (uint8_t*) reserve_words( DATA_SET_SIZE_W );
-printf("words reserved");
+
   if (! ptr )
   {
     return TEST_ERROR;
@@ -341,6 +341,7 @@ void project1(void)
 
   for ( i = 0; i < TESTCOUNT; i++) 
   {
+	printf("%i : %i \n", i, results[i]);
     failed += results[i];
   }
 
