@@ -34,7 +34,7 @@ endif
 
 #link together all object files
 project1.elf: $(addsuffix .o, $(SOURCES))
-	$(CC) $^ -o $@ $(CFLAGS) $(addprefix -I,$(INCLUDE_PATHS)) $(addprefix -D, $(CPPFLAGS))
+	$(CC) $^ -o $@ $(CFLAGS) $(addprefix -I,$(INCLUDE_PATHS)) $(addprefix -D, $(CPPFLAGS)) -Xlinker -Map=project1.map
 
 %.i: %.c
 	$(CC) $< -o $@ -E $(CFLAGS) $(addprefix -I,$(INCLUDE_PATHS)) $(addprefix -D, $(CPPFLAGS))
@@ -44,6 +44,9 @@ project1.elf: $(addsuffix .o, $(SOURCES))
 
 %.o: %.c
 	$(CC) $< -o $@ -c $(CFLAGS) $(addprefix -I,$(INCLUDE_PATHS)) $(addprefix -D, $(CPPFLAGS))
+
+%.dep: %.c
+	$(CC) $< -o $@ -M $(CFLAGS) $(addprefix -I,$(INCLUDE_PATHS)) $(addprefix -D, $(CPPFLAGS))
 
 .PHONY: compile-all
 compile-all: $(addsuffix .o, $(SOURCES))
