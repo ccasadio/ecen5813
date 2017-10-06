@@ -33,13 +33,13 @@ CC = gcc
 endif
 
 #link together all object files
-main.elf: $(addsuffix .o, $(SOURCES))
+project1.elf: $(addsuffix .o, $(SOURCES))
 	$(CC) $^ -o $@ $(CFLAGS) $(addprefix -I,$(INCLUDE_PATHS)) $(addprefix -D, $(CPPFLAGS))
 
-%.i: %.c %.h
+%.i: %.c
 	$(CC) $< -o $@ -E $(CFLAGS) $(addprefix -I,$(INCLUDE_PATHS)) $(addprefix -D, $(CPPFLAGS))
 
-%.asm: %.c %.h
+%.asm: %.c
 	$(CC) $< -o $@ -S $(CFLAGS) $(addprefix -I,$(INCLUDE_PATHS)) $(addprefix -D, $(CPPFLAGS))
 
 %.o: %.c
@@ -51,4 +51,4 @@ compile-all: $(addsuffix .o, $(SOURCES))
 #helper function to delete all object  files
 .PHONY: clean
 clean: 
-	rm -f $(addsuffix .o, $(SOURCES)) $(addsuffix .out, $(SOURCES)) $(addsuffix .asm, $(SOURCES)) $(addsuffix .i, $(SOURCES)) $(addsuffix .map, $(SOURCES))
+	rm -f $(addsuffix .o, $(SOURCES)) $(addsuffix .out, $(SOURCES)) $(addsuffix .asm, $(SOURCES)) $(addsuffix .i, $(SOURCES)) $(addsuffix .map, $(SOURCES)) $(addsuffix .elf, $(SOURCES))
