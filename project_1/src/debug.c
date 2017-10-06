@@ -18,6 +18,8 @@
 *
 */
 
+#include "debug.h"
+
 void print_memory(uint8_t * start, uint32_t length)
 {
 	uint32_t i;

@@ -27,30 +27,26 @@ CC = arm-linux-gnueabihf-gcc
 else
 CFLAGS   = -Wall -Werror -g -O0 -std=c99
 CPPFLAGS = 
-INCLUDE_PATHS = /../include/common
+INCLUDE_PATHS = ../include/common
 CC = gcc
 
 endif
 
 #link together all object files
 main.elf: $(addsuffix .o, $(SOURCES))
-	$(CC) $^ -o $@ $(CFLAGS) $(addprefix -I,$(INCLUDE_PATHS)) -D $(CPPFLAGS)
+	$(CC) $^ -o $@ $(CFLAGS) $(addprefix -I,$(INCLUDE_PATHS)) $(addprefix -D, $(CPPFLAGS))
 
 %.i: %.c %.h
-	$(CC) $< -0 $@ -E $(CFLAGS) $(addprefix -I,$(INCLUDE_PATHS)) -D $(CPPFLAGS) 
+	$(CC) $< -o $@ -E $(CFLAGS) $(addprefix -I,$(INCLUDE_PATHS)) $(addprefix -D, $(CPPFLAGS))
 
 %.asm: %.c %.h
-	$(CC) $< -0 $@ -S $(CFLAGS) $(addprefix -I,$(INCLUDE_PATHS)) -D $(CPPFLAGS) 
+	$(CC) $< -o $@ -S $(CFLAGS) $(addprefix -I,$(INCLUDE_PATHS)) $(addprefix -D, $(CPPFLAGS))
 
-%.o: %.c %.h
-	$(CC) $< -0 $@ -c $(CFLAGS) $(addprefix -I,$(INCLUDE_PATHS)) -D $(CPPFLAGS)
+%.o: %.c
+	$(CC) $< -o $@ -c $(CFLAGS) $(addprefix -I,$(INCLUDE_PATHS)) $(addprefix -D, $(CPPFLAGS))
 
 .PHONY: compile-all
 compile-all: $(addsuffix .o, $(SOURCES))
-
-#cross compile all .c files into object files (with a _BBB.o name) for the BBB platform 
-%_BBB.o: %.c %.h
-	arm-linux-gnueabihf-gcc $< -o $@
 
 #helper function to delete all object  files
 .PHONY: clean

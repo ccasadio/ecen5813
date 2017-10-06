@@ -23,6 +23,7 @@
 #include "project1.h"
 #include "memory.h"
 #include "conversion.h"
+#include "debug.h"
 
 int8_t test_data1() {
   uint8_t * ptr;
@@ -32,14 +33,16 @@ int8_t test_data1() {
 
   printf("\ntest_data1();\n");
   ptr = (uint8_t*) reserve_words( DATA_SET_SIZE_W );
-
+printf("words reserved");
   if (! ptr )
   {
     return TEST_ERROR;
   }
 
   digits = my_itoa( num, ptr, BASE_16);   
+
   value = my_atoi( ptr, digits, BASE_16);
+
   #ifdef VERBOSE
   printf("  Initial number: %d\n", num);  
   printf("  Final Decimal number: %d\n", value);  
