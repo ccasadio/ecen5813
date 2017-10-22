@@ -24,6 +24,7 @@
 #define _GAURD_INCLUDE_COMMON_MEMORY_H
 
 #include <stdint.h>
+#include <stdlib.h>
 
 /**
  * @brief function to copy length bytes from the source location (src) to the destination (dst)
@@ -104,7 +105,7 @@ uint8_t * my_reverse(uint8_t * src, size_t length);
  *
  * @return a pointer to the beginning of the memory section
  */
-int32_t * reserve_words(size_t length);
+uint32_t * reserve_words(size_t length);
 
 /**
  * @brief function to free dynamic memory allocated by reserve_words
@@ -116,6 +117,6 @@ int32_t * reserve_words(size_t length);
  *
  * @return void
  */
-void free_words(int32_t * src);
+void free_words(uint32_t * src);
 
 #endif
