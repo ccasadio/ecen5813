@@ -67,7 +67,7 @@ uint8_t * my_memcpy(uint8_t * src, uint8_t * dst, size_t length);
  *
  * @return a pointer to the source (src)
  */
-int8_t * my_memset(uint8_t * src, size_t length, uint8_t value);
+uint8_t * my_memset(uint8_t * src, size_t length, uint8_t value);
 
 /**
  * @brief function to set length bytes starting from the source location (src) to 0
