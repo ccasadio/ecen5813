@@ -1,9 +1,5 @@
 # -*- MakeFile -*-
 
-#target: dependencies
-#	action
-
-
 
 PLATFORM ?= HOST
 SOURCES  = conversion debug main memory project1 
@@ -47,6 +43,9 @@ project1.elf: $(addsuffix .o, $(SOURCES))
 
 %.dep: %.c
 	$(CC) $< -o $@ -M $(CFLAGS) $(addprefix -I,$(INCLUDE_PATHS)) $(addprefix -D, $(CPPFLAGS))
+
+%.c: %.h
+	touch $@
 
 .PHONY: compile-all
 compile-all: $(addsuffix .o, $(SOURCES))
