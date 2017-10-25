@@ -63,8 +63,12 @@ test-optimize%:
 	rm -f optimizationReport.txt
 	make clean
 	make test CFLAGS=-O$*
-	echo -e "optimization level $*\n" &>> optimizationReport.txt
+	echo -e "optimization level " $* "\n" &>> optimizationReport.txt
 	./a.out &>> optimizationReport.txt
+	echo "\n" &>> optimizationReport.txt
+	ls -l --block-size=KB a.out &>> optimizationReport.txt
+
+
 
 .PHONY: optimize
-optimize: $(addprefix test-optimize,1 2 3 4 5 6 7 8)
+optimize: $(addprefix test-optimize,1 2 3 s fast)
