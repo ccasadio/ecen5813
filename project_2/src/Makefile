@@ -25,7 +25,7 @@ CC = gcc
 
 endif
 
-compilerflags = -Wall -Werror -g -std=c99 CFLAGS
+compilerflags = -Wall -Werror -g -std=c99 $(CFLAGS)
 
 #link together all object files
 project1.elf: $(addsuffix .o, $(SOURCES))
