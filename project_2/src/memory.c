@@ -109,7 +109,7 @@ uint8_t * my_memset(uint8_t * src, size_t length, uint8_t value)
 	/* check for zero length */
 	if(!length)
 	{
-		return dst;
+		return src;
 	}
 
 	uint8_t i;
@@ -137,7 +137,7 @@ uint8_t * my_reverse(uint8_t * src, size_t length)
 	/* check for zero length */
 	if(!length)
 	{
-		return dst;
+		return src;
 	}
 
 	uint8_t tmp;

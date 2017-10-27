@@ -4,6 +4,7 @@
 #include <cmocka.h>
 
 #include <stdlib.h>
+#include <stdint.h>
 
 #include "memory.h"
 
@@ -118,26 +119,26 @@ void test_memmove_overlap3(void **state)
 	assert_memory_equal(cnst, ptr2, 4);
 }
 
-void test_memcopy_null_ptr1(void **state)
+void test_memcpy_null_ptr1(void **state)
 {
 	setup_tests();
 
-	uint8_t * result = my_memcopy(nullPtr, ptr, 2);
+	uint8_t * result = my_memcpy(nullPtr, ptr, 2);
 
 	assert_null(result);
 }
 
-void test_memcopy_null_ptr2(void **state)
+void test_memcpy_null_ptr2(void **state)
 {
 	setup_tests();
 
-	uint8_t* result = my_memcopy(ptr, nullPtr, 2);
+	uint8_t* result = my_memcpy(ptr, nullPtr, 2);
 
 	assert_null(result);
 }
 
 
-void test_memcopy_no_overlap(void **state)
+void test_memcpy_no_overlap(void **state)
 {
 	setup_tests();
 	uint8_t* ptr1 = ptr;
@@ -149,12 +150,12 @@ void test_memcopy_no_overlap(void **state)
 		*(ptr1 + i) = *(cnst + i);
 	}
 
-	uint8_t* result = my_memcopy(ptr1, ptr2, 4);
+	uint8_t* result = my_memcpy(ptr1, ptr2, 4);
 
 	assert_memory_equal(cnst, ptr2, 4);
 }
 
-void test_memcopy_overlap1(void **state)
+void test_memcpy_overlap1(void **state)
 {
 	setup_tests();
 	uint8_t* ptr1 = ptr;
@@ -166,12 +167,12 @@ void test_memcopy_overlap1(void **state)
 		*(ptr1 + i) = *(cnst + i);
 	}
 
-	uint8_t* result = my_memcopy(ptr1, ptr2, 4);
+	uint8_t* result = my_memcpy(ptr1, ptr2, 4);
 
 	assert_memory_equal(cnst, ptr2, 4);
 }
 
-void test_memcopy_overlap2(void **state)
+void test_memcpy_overlap2(void **state)
 {
 	setup_tests();
 	uint8_t* ptr1 = (ptr + 1);
@@ -183,12 +184,12 @@ void test_memcopy_overlap2(void **state)
 		*(ptr1 + i) = *(cnst + i);
 	}
 
-	uint8_t* result = my_memcopy(ptr1, ptr2, 4);
+	uint8_t* result = my_memcpy(ptr1, ptr2, 4);
 
 	assert_memory_equal(cnst, ptr2, 4);
 }
 
-void test_memcopy_overlap3(void **state)
+void test_memcpy_overlap3(void **state)
 {
 	setup_tests();
 	uint8_t* ptr1 = (ptr + 1);
@@ -200,7 +201,7 @@ void test_memcopy_overlap3(void **state)
 		*(ptr1 + i) = i;
 	}
 
-	uint8_t* result = my_memcopy(ptr1, ptr2, 4);
+	uint8_t* result = my_memcpy(ptr1, ptr2, 4);
 
 	assert_memory_equal(cnst, ptr2, 4);
 }
@@ -221,7 +222,7 @@ void test_memset_success(void **state)
 	int len = 4;
 	int val = 1;
 
-	uint8_t* result = my_memcopy(ptr1, len, val);
+	uint8_t* result = my_memset(ptr1, len, val);
 
 
 	int i;
@@ -273,24 +274,19 @@ int main(int argc, char **argv)
     	cmocka_unit_test(test_memmove_overlap2),
     	cmocka_unit_test(test_memmove_overlap3),
 
-    	cmocka_unit_test(test_memcopy_null_ptr1),
-    	cmocka_unit_test(test_memcopy_null_ptr2),
-    	cmocka_unit_test(test_memcopy_no_overlap),
-    	cmocka_unit_test(test_memcopy_overlap1),
-    	cmocka_unit_test(test_memcopy_overlap2),
-    	cmocka_unit_test(test_memcopy_overlap3),
+    	cmocka_unit_test(test_memcpy_null_ptr1),
+    	cmocka_unit_test(test_memcpy_null_ptr2),
+    	cmocka_unit_test(test_memcpy_no_overlap),
+    	cmocka_unit_test(test_memcpy_overlap1),
+    	cmocka_unit_test(test_memcpy_overlap2),
+    	cmocka_unit_test(test_memcpy_overlap3),
 
     	cmocka_unit_test(test_memset_null_ptr),
     	cmocka_unit_test(test_memset_success),
 
     	cmocka_unit_test(test_memzero_null_ptr),
     	cmocka_unit_test(test_memzero_success),
-
-    	cmocka_unit_test(test_memcopy_overlap3),
   	};
-
-  	free(ptr);
-  	free(cnst);
 
   	return cmocka_run_group_tests(memory_tests, NULL, NULL);
 }
