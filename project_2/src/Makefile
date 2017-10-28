@@ -26,6 +26,7 @@ CC = gcc
 endif
 
 compilerflags = -Wall -Werror -g -std=c99 $(CFLAGS)
+testPath = tests/
 
 #link together all object files
 project1.elf: $(addsuffix .o, $(SOURCES))
@@ -55,9 +56,11 @@ compile-all: $(addsuffix .o, $(SOURCES))
 clean: 
 	rm -f $(addsuffix .o, $(SOURCES)) $(addsuffix .out, $(SOURCES)) $(addsuffix .asm, $(SOURCES)) $(addsuffix .i, $(SOURCES)) $(addsuffix .map, $(SOURCES)) $(addsuffix .elf, $(SOURCES))
 
-.PHONY: test
-test: compile-all
-	gcc $(addsuffix .c, $(TESTS)) -lcmocka $(compilerflags)
+.PHONY: test-all
+
+
+test_%: %.o
+	$(CC) $(addprefix $(testPath),$(addsuffix .c, $@)) -lcmocka $(compilerflags) $(addprefix -I,$(INCLUDE_PATHS))
 
 test-optimize%: 
 	rm -f optimizationReport.txt
