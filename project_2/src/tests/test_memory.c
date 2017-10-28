@@ -63,7 +63,7 @@ void test_memmove_no_overlap(void **state)
 		*(ptr1 + i) = *(cnst + i);
 	}
 
-	uint8_t* result = my_memmove(ptr1, ptr2, 4);
+	my_memmove(ptr1, ptr2, 4);
 
 	assert_memory_equal(cnst, ptr2, 4);
 }
@@ -80,7 +80,7 @@ void test_memmove_overlap1(void **state)
 		*(ptr1 + i) = *(cnst + i);
 	}
 
-	uint8_t* result = my_memmove(ptr1, ptr2, 4);
+	my_memmove(ptr1, ptr2, 4);
 
 	assert_memory_equal(cnst, ptr2, 4);
 }
@@ -97,7 +97,7 @@ void test_memmove_overlap2(void **state)
 		*(ptr1 + i) = *(cnst + i);
 	}
 
-	uint8_t* result = my_memmove(ptr1, ptr2, 4);
+	my_memmove(ptr1, ptr2, 4);
 
 	assert_memory_equal(cnst, ptr2, 4);
 }
@@ -114,7 +114,7 @@ void test_memmove_overlap3(void **state)
 		*(ptr1 + i) = i;
 	}
 
-	uint8_t* result = my_memmove(ptr1, ptr2, 4);
+	my_memmove(ptr1, ptr2, 4);
 
 	assert_memory_equal(cnst, ptr2, 4);
 }
@@ -132,7 +132,7 @@ void test_memcpy_null_ptr2(void **state)
 {
 	setup_tests();
 
-	uint8_t* result = my_memcpy(ptr, nullPtr, 2);
+	uint8_t * result = my_memcpy(ptr, nullPtr, 2);
 
 	assert_null(result);
 }
@@ -150,7 +150,7 @@ void test_memcpy_no_overlap(void **state)
 		*(ptr1 + i) = *(cnst + i);
 	}
 
-	uint8_t* result = my_memcpy(ptr1, ptr2, 4);
+	my_memcpy(ptr1, ptr2, 4);
 
 	assert_memory_equal(cnst, ptr2, 4);
 }
@@ -167,7 +167,7 @@ void test_memcpy_overlap1(void **state)
 		*(ptr1 + i) = *(cnst + i);
 	}
 
-	uint8_t* result = my_memcpy(ptr1, ptr2, 4);
+	my_memcpy(ptr1, ptr2, 4);
 
 	assert_memory_equal(cnst, ptr2, 4);
 }
@@ -184,7 +184,7 @@ void test_memcpy_overlap2(void **state)
 		*(ptr1 + i) = *(cnst + i);
 	}
 
-	uint8_t* result = my_memcpy(ptr1, ptr2, 4);
+	my_memcpy(ptr1, ptr2, 4);
 
 	assert_memory_equal(cnst, ptr2, 4);
 }
@@ -201,7 +201,7 @@ void test_memcpy_overlap3(void **state)
 		*(ptr1 + i) = i;
 	}
 
-	uint8_t* result = my_memcpy(ptr1, ptr2, 4);
+	my_memcpy(ptr1, ptr2, 4);
 
 	assert_memory_equal(cnst, ptr2, 4);
 }
@@ -222,7 +222,7 @@ void test_memset_success(void **state)
 	int len = 4;
 	int val = 1;
 
-	uint8_t* result = my_memset(ptr1, len, val);
+	my_memset(ptr1, len, val);
 
 
 	int i;
@@ -250,7 +250,7 @@ void test_memzero_success(void **state)
 	int len = 4;
 	int val = 0;
 
-	uint8_t* result = my_memzero(ptr1, len);
+	my_memzero(ptr1, len);
 
 
 	int i;
@@ -260,6 +260,74 @@ void test_memzero_success(void **state)
 	}
 	assert_int_equal(*(ptr1 - 1), bg);
 	assert_int_equal(*(ptr1 + len), bg);
+}
+
+void test_reverse_null_ptr(void **state)
+{
+	setup_tests();
+
+	uint8_t * result = my_reverse(nullPtr, 2);
+
+	assert_null(result);
+}
+
+void test_reverse_odd(void **state)
+{
+	setup_tests();
+	uint8_t* ptr1 = ptr;
+	int len = 5;
+
+	int i;
+	for(i = 0; i < len; i++)
+	{
+		*(ptr1 + i) = i;
+	}
+
+	my_reverse(ptr1, len);
+
+	for(i = 0; i < len; i++)
+	{
+		assert_int_equal(*(ptr1 + i), (len - 1) - i);
+	}
+}
+
+void test_reverse_even(void **state)
+{
+	setup_tests();
+	uint8_t* ptr1 = ptr;
+	int len = 4;
+
+	int i;
+	for(i = 0; i < len; i++)
+	{
+		*(ptr1 + i) = i;
+	}
+
+	my_reverse(ptr1, len);
+
+	for(i = 0; i < len; i++)
+	{
+		assert_int_equal(*(ptr1 + i), (len - 1) - i);
+	}
+}
+
+void test_reverse_all_chars(void **state)
+{
+	int len = 256;
+	uint8_t* ptr1 = malloc(len);
+
+	int i;
+	for(i = 0; i < len; i++)
+	{
+		*(ptr1 + i) = i;
+	}
+
+	my_reverse(ptr1, len);
+
+	for(i = 0; i < len; i++)
+	{
+		assert_int_equal(*(ptr1 + i), (len - 1) - i);
+	}
 }
 
 int main(int argc, char **argv)
@@ -286,6 +354,11 @@ int main(int argc, char **argv)
 
     	cmocka_unit_test(test_memzero_null_ptr),
     	cmocka_unit_test(test_memzero_success),
+
+    	cmocka_unit_test(test_reverse_null_ptr),
+    	cmocka_unit_test(test_reverse_odd),
+    	cmocka_unit_test(test_reverse_even),
+    	cmocka_unit_test(test_reverse_all_chars),
   	};
 
   	return cmocka_run_group_tests(memory_tests, NULL, NULL);

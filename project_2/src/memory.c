@@ -90,9 +90,28 @@ uint8_t * my_memcpy(uint8_t * src, uint8_t * dst, size_t length)
 	}
 
 	uint8_t i;
-	for(i = 0; i < length; i++)
+
+	/* if pointer addresses are the same then we're already done */
+	if(src == dst)
 	{
-		*(dst + i) = *(src + i);
+		return dst;
+	}
+	
+
+	/* choose whether to work backwards or forwards to avoid corrupting overlapping data */
+	if(src > dst)
+	{
+		for(i = 0; i < length; i++)
+		{
+			*(dst + i) = *(src + i);
+		}
+	}
+	else
+	{
+		for(i = 1; i < length + 1; i++)
+		{	
+			*(dst + length - i) = *(src + length - i);
+		}
 	}
 
 	return dst;
