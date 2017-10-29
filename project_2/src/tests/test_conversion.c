@@ -69,10 +69,10 @@ int main(int argc, char **argv)
 {
     const struct CMUnitTest template_tests[] = 
     {
-      cmocka_unit_test(test_big_to_little),
-      cmocka_unit_test(test_big_to_little_null),
-      cmocka_unit_test(test_little_to_big),
-      cmocka_unit_test(test_little_to_big_null),
+        cmocka_unit_test(test_big_to_little),
+        cmocka_unit_test(test_big_to_little_null),
+        cmocka_unit_test(test_little_to_big),
+        cmocka_unit_test(test_little_to_big_null),
     };
 
     return cmocka_run_group_tests(template_tests, group_setup, group_teardown);
