@@ -4,6 +4,8 @@
 #include <cmocka.h>
 
 #include "conversion.h"
+#include <stdlib.h>
+#include <stdint.h>
 
 #define NUM 1
 
@@ -25,7 +27,7 @@ static int group_teardown(void **state)
 
 void test_big_to_little(void **state)
 {
-    uint32_t a = *((uint32_t *)*state);
+    uint32_t* a = ((uint32_t *)*state);
     *a = NUM;
 
     uint8_t success = big_to_little32(a, 1);
@@ -36,7 +38,7 @@ void test_big_to_little(void **state)
 
 void test_little_to_big(void **state)
 {
-    uint32_t a = *((uint32_t *)*state);
+    uint32_t* a = ((uint32_t *)*state);
     *a = NUM;
 
     uint8_t success = little_to_big32(a, 1);
@@ -47,6 +49,7 @@ void test_little_to_big(void **state)
 
 void test_big_to_little_null(void **state)
 {
+    uint32_t* a = NULL;
     uint8_t success = big_to_little32(a, 1);
 
     assert_int_not_equal(success, 0);
@@ -55,6 +58,7 @@ void test_big_to_little_null(void **state)
 
 void test_little_to_big_null(void **state)
 {
+    uint32_t* a = NULL;
     uint8_t success = little_to_big32(a, 1);
 
     assert_int_not_equal(success, 0);
@@ -65,10 +69,10 @@ int main(int argc, char **argv)
 {
     const struct CMUnitTest template_tests[] = 
     {
-      cmocka_unit_test(test_equal),
-      cmocka_unit_test(test__notequal),
-      cmocka_unit_test(test_true),
-      cmocka_unit_test(test_skip),
+      cmocka_unit_test(test_big_to_little),
+      cmocka_unit_test(test_big_to_little_null),
+      cmocka_unit_test(test_little_to_big),
+      cmocka_unit_test(test_little_to_big_null),
     };
 
     return cmocka_run_group_tests(template_tests, group_setup, group_teardown);
