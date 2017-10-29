@@ -65,7 +65,7 @@ int32_t my_atoi(uint8_t * ptr, uint8_t digits, uint32_t base);
  * 
  * @return 0 for success and not 0 for failure
  */
-int8_t big_to_little32(uint32_t * data, uint32_t length);
+uint8_t big_to_little32(uint32_t * data, uint32_t length);
 
 /**
  * @brief function to convert a set of 32 bit data from little endian to big endian
@@ -76,6 +76,6 @@ int8_t big_to_little32(uint32_t * data, uint32_t length);
  * 
  * @return 0 for success and not 0 for failure
  */
-int8_t little_to_big32(uint32_t * data, uint32_t length);
+uint8_t little_to_big32(uint32_t * data, uint32_t length);
 
 #endif
