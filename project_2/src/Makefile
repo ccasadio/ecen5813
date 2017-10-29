@@ -2,9 +2,9 @@
 
 
 PLATFORM ?= HOST
-SOURCES  = conversion debug main memory
+SOURCES  = conversion debug memory
 HEADERS  = core_cm0plus core_cm4 core_cm4_simd core_cmFunc core_cmInstr MKL25Z4 system_MKL25Z4
-TESTS = testtest1 testtest2
+TESTS = 
 
 
 ifeq ($(PLATFORM), KL25Z)
