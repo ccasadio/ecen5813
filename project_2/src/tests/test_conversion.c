@@ -7,7 +7,8 @@
 #include <stdlib.h>
 #include <stdint.h>
 
-#define NUM 1
+#define NUM (0x000000FF)
+#define NUM_R (0xFF000000)
 
 static int group_setup(void **state)
 {
@@ -33,7 +34,7 @@ void test_big_to_little(void **state)
     uint8_t success = big_to_little32(a, 1);
 
     assert_int_equal(success, 0);
-    assert_int_equal(a, NUM << (4 * sizeof(a)));
+    assert_int_equal(*a, NUM_R);
 }
 
 void test_little_to_big(void **state)
@@ -44,7 +45,7 @@ void test_little_to_big(void **state)
     uint8_t success = little_to_big32(a, 1);
 
     assert_int_equal(success, 0);
-    assert_int_equal(a, NUM << (4 * sizeof(a)));
+    assert_int_equal(*a, NUM_R);
 }
 
 void test_big_to_little_null(void **state)
@@ -53,7 +54,6 @@ void test_big_to_little_null(void **state)
     uint8_t success = big_to_little32(a, 1);
 
     assert_int_not_equal(success, 0);
-    assert_int_equal(a, NUM);
 }
 
 void test_little_to_big_null(void **state)
@@ -62,7 +62,6 @@ void test_little_to_big_null(void **state)
     uint8_t success = little_to_big32(a, 1);
 
     assert_int_not_equal(success, 0);
-    assert_int_equal(a, NUM);
 }
 
 int main(int argc, char **argv)
