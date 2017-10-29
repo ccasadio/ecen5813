@@ -59,8 +59,8 @@ clean:
 .PHONY: test-all
 
 
-test_%: %.o
-	$(CC) $(addprefix $(testPath),$(addsuffix .c, $@)) $< -lcmocka $(compilerflags) $(addprefix -I,$(INCLUDE_PATHS))
+test_%: $(addsuffix .o, $(SOURCES))
+	$(CC) $(addprefix $(testPath),$(addsuffix .c, $@)) $^ -lcmocka $(compilerflags) $(addprefix -I,$(INCLUDE_PATHS))
 
 test-optimize%: 
 	rm -f optimizationReport.txt
