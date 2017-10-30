@@ -21,13 +21,16 @@
 */
 
 #include <stdint.h>
+#include <stdlib.h>
 
 typedef struct
 {
-	uint8_t *buf;
-	uint8_t *head;
-	uint8_t *tail;
-	uint16_t size;
+	void* bufferStart;
+	void* bufferEnd;
+	void* head;
+	void* tail;
+	size_t dataNum;
+	size_t dataCapacity
 } CB_t;
 
 typedef enum
@@ -37,6 +40,7 @@ typedef enum
 	BufferEmpty;
 	NullPointer;
 	NoLength;
+	NotInit;
 	BufferAllocationFailure;
 } CB_Status_t;
 
@@ -52,7 +56,7 @@ typedef enum
  *
  * @return circular buffer status code
  */
-CB_Status_t CB_buffer_add_item(CB_t* cb, uint8_t data);
+CB_Status_t CB_buffer_add_item(CB_t* cb, uint8_t* data);
 
 
 
@@ -111,7 +115,7 @@ CB_Status_t CB_is_empty(CB_t* cb);
  *
  * @return circular buffer status code
  */
-CB_Status_t CB_peek(CB_t* cb, uint32_t peekDepth, uint8_t* buff);
+CB_Status_t CB_peek(CB_t* cb, size_t peekDepth, uint8_t* buff);
 
 
 
@@ -126,7 +130,7 @@ CB_Status_t CB_peek(CB_t* cb, uint32_t peekDepth, uint8_t* buff);
  *
  * @return circular buffer status code
  */
-CB_Status_t CB_init(CB_t* cb, uint32_t size);
+CB_Status_t CB_init(CB_t* cb, size_t size);
 
 
 
