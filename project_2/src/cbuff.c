@@ -39,9 +39,9 @@ CB_Status_t check_CB(CB_t* cb)
 
 CB_Status_t CB_buffer_add_item(CB_t* cb, uint8_t* data)
 {
-	if(check_CB(CB_t* cb))
+	if(check_CB(cb))
 	{
-		return check_CB(CB_t* cb);
+		return check_CB(cb);
 	}
 
 	if(CB_is_full(cb))
@@ -57,7 +57,7 @@ CB_Status_t CB_buffer_add_item(CB_t* cb, uint8_t* data)
 		cb->head = cb->bufferStart;
 	}
 
-	cb->count++;
+	cb->dataNum++;
 
 	return Success;
 }
@@ -65,17 +65,17 @@ CB_Status_t CB_buffer_add_item(CB_t* cb, uint8_t* data)
 
 CB_Status_t CB_buffer_remove_item(CB_t* cb, uint8_t* buff)
 {
-	if(check_CB(CB_t* cb))
+	if(check_CB(cb))
 	{
-		return check_CB(CB_t* cb);
+		return check_CB(cb);
 	}
 
-	if(CB_is_enpty(cb))
+	if(CB_is_empty(cb))
 	{
 		return BufferEmpty;
 	}
 
-	*data = *(cb->tail);
+	*buff = *(cb->tail);
 	cb->tail ++;
 
 	if(cb->tail == cb->bufferEnd)
@@ -83,7 +83,7 @@ CB_Status_t CB_buffer_remove_item(CB_t* cb, uint8_t* buff)
 		cb->tail = cb->bufferStart;
 	}
 
-	cb->count--;
+	cb->dataNum--;
 
 	return Success;
 }
@@ -91,9 +91,9 @@ CB_Status_t CB_buffer_remove_item(CB_t* cb, uint8_t* buff)
 
 CB_Status_t CB_is_full(CB_t* cb)
 {
-	if(check_CB(CB_t* cb))
+	if(check_CB(cb))
 	{
-		return check_CB(CB_t* cb);
+		return check_CB(cb);
 	}
 
 	if(cb->dataNum == cb->dataCapacity)
@@ -107,9 +107,9 @@ CB_Status_t CB_is_full(CB_t* cb)
 
 CB_Status_t CB_is_empty(CB_t* cb)
 {
-	if(check_CB(CB_t* cb))
+	if(check_CB(cb))
 	{
-		return check_CB(CB_t* cb);
+		return check_CB(cb);
 	}
 
 	if(cb->dataNum == 0)
@@ -123,9 +123,9 @@ CB_Status_t CB_is_empty(CB_t* cb)
 
 CB_Status_t CB_peek(CB_t* cb, size_t peekDepth, uint8_t* buff)
 {
-	if(check_CB(CB_t* cb))
+	if(check_CB(cb))
 	{
-		return check_CB(CB_t* cb);
+		return check_CB(cb);
 	}
 
 	if(peekDepth > cb->dataNum)
@@ -133,12 +133,12 @@ CB_Status_t CB_peek(CB_t* cb, size_t peekDepth, uint8_t* buff)
 		return TooFewElements;
 	}
 
-	if(CB_is_enpty(cb))
+	if(CB_is_empty(cb))
 	{
 		return BufferEmpty;
 	}
 
-	*data = *((cb->tail) + peekDepth);
+	*buff = *((cb->tail) + peekDepth);
 
 	return Success;
 }
@@ -164,7 +164,7 @@ CB_Status_t CB_init(CB_t* cb, size_t size)
 		return BufferAllocationFailure;
 	}
 
-	cb->bufferEnd = *((uint8_t*)(cb->bufferStart) + (sizeof(uint8_t) * size));
+	cb->bufferEnd = ((uint8_t*)(cb->bufferStart) + (sizeof(uint8_t) * size));
 	cb->head = cb->bufferStart;
 	cb->tail = cb->bufferStart;
 	cb->dataNum = 0;
@@ -176,9 +176,9 @@ CB_Status_t CB_init(CB_t* cb, size_t size)
 
 CB_Status_t CB_destroy(CB_t* cb)
 {
-	if(check_CB(CB_t* cb))
+	if(check_CB(cb))
 	{
-		return check_CB(CB_t* cb);
+		return check_CB(cb);
 	}
 
 	free(cb->bufferStart);

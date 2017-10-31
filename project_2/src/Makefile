@@ -2,7 +2,7 @@
 
 
 PLATFORM ?= HOST
-SOURCES  = conversion debug memory
+SOURCES  = conversion debug memory cbuff
 HEADERS  = core_cm0plus core_cm4 core_cm4_simd core_cmFunc core_cmInstr MKL25Z4 system_MKL25Z4
 TESTS = 
 

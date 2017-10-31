@@ -5,6 +5,7 @@
 
 #include "cbuff.h"
 #include <stdlib.h>
+#include <stdio.h>
 
 #define SIZE (5)
 
@@ -19,7 +20,7 @@ static int group_setup(void **state)
 
 static int group_teardown(void **state)
 {
-    int *cb = (CB_t*)*state;
+    CB_t *cb = (CB_t*)*state;
     CB_destroy(cb);
     free((void*)cb);
     return 0;
@@ -30,7 +31,7 @@ void test_cb_add_null(void **state)
     CB_t* cb = NULL;
 
     uint8_t a = 6;
-    CB_status_t outcome = CB_buffer_add_item(cb, &a);
+    CB_Status_t outcome = CB_buffer_add_item(cb, &a);
 
     assert_int_equal(outcome, NullPointer);
 }
@@ -40,7 +41,7 @@ void test_cb_remove_null(void **state)
     CB_t* cb = NULL;
 
     uint8_t b = 4;
-    CB_status_t outcome = CB_buffer_remove_item(cb, &b);
+    CB_Status_t outcome = CB_buffer_remove_item(cb, &b);
 
     assert_int_equal(outcome, NullPointer);
 }
@@ -49,7 +50,7 @@ void test_cb_is_full_null(void **state)
 {
     CB_t* cb = NULL;
 
-    CB_status_t outcome = CB_is_full(cb);
+    CB_Status_t outcome = CB_is_full(cb);
 
     assert_int_equal(outcome, NullPointer);
 }
@@ -58,7 +59,7 @@ void test_cb_is_empty_null(void **state)
 {
     CB_t* cb = NULL;
 
-    CB_status_t outcome = CB_is_empty(cb);
+    CB_Status_t outcome = CB_is_empty(cb);
 
     assert_int_equal(outcome, NullPointer);
 }
@@ -69,7 +70,7 @@ void test_cb_peek_null(void **state)
 
     size_t a = 4;
     uint8_t b = 3;
-    CB_status_t outcome = CB_peek(cb, a, &b);
+    CB_Status_t outcome = CB_peek(cb, a, &b);
 
     assert_int_equal(outcome, NullPointer);
 }
@@ -79,7 +80,7 @@ void test_cb_init_null(void **state)
     CB_t* cb = NULL;
 
     size_t a = 4;
-    CB_status_t outcome = CB_init(cb, );
+    CB_Status_t outcome = CB_init(cb, a);
 
     assert_int_equal(outcome, NullPointer);
 }
@@ -88,7 +89,7 @@ void test_cb_destroy_null(void **state)
 {
     CB_t* cb = NULL;
 
-    CB_status_t outcome = CB_destroy(cb);
+    CB_Status_t outcome = CB_destroy(cb);
 
     assert_int_equal(outcome, NullPointer);
 }
@@ -98,7 +99,7 @@ void test_cb_add_uninit(void **state)
     CB_t *cb = malloc(sizeof(CB_t));
 
     uint8_t a = 6;
-    CB_status_t outcome = CB_buffer_add_item(cb, &a);
+    CB_Status_t outcome = CB_buffer_add_item(cb, &a);
 
     assert_int_equal(outcome, NotInit);
 }
@@ -108,7 +109,7 @@ void test_cb_remove_uninit(void **state)
     CB_t *cb = malloc(sizeof(CB_t));
 
     uint8_t b = 4;
-    CB_status_t outcome = CB_buffer_remove_item(cb, &b);
+    CB_Status_t outcome = CB_buffer_remove_item(cb, &b);
 
     assert_int_equal(outcome, NotInit);
 }
@@ -117,7 +118,7 @@ void test_cb_is_full_uninit(void **state)
 {
     CB_t *cb = malloc(sizeof(CB_t));
 
-    CB_status_t outcome = CB_is_full(cb);
+    CB_Status_t outcome = CB_is_full(cb);
 
     assert_int_equal(outcome, NotInit);
 }
@@ -126,7 +127,7 @@ void test_cb_is_empty_uninit(void **state)
 {
     CB_t *cb = malloc(sizeof(CB_t));
 
-    CB_status_t outcome = CB_is_empty(cb);
+    CB_Status_t outcome = CB_is_empty(cb);
 
     assert_int_equal(outcome, NotInit);
 }
@@ -137,7 +138,7 @@ void test_cb_peek_uninit(void **state)
 
     size_t a = 4;
     uint8_t b = 3;
-    CB_status_t outcome = CB_peek(cb, a, &b);
+    CB_Status_t outcome = CB_peek(cb, a, &b);
 
     assert_int_equal(outcome, NotInit);
 }
@@ -147,7 +148,7 @@ void test_cb_init_uninit(void **state)
     CB_t *cb = malloc(sizeof(CB_t));
 
     size_t a = 4;
-    CB_status_t outcome = CB_init(cb, 4);
+    CB_Status_t outcome = CB_init(cb, a);
 
     assert_int_equal(outcome, Success);
 }
@@ -156,7 +157,7 @@ void test_cb_destroy_uninit(void **state)
 {
     CB_t *cb = malloc(sizeof(CB_t));
 
-    CB_status_t outcome = CB_destroy(cb);
+    CB_Status_t outcome = CB_destroy(cb);
 
     assert_int_equal(outcome, NotInit);
 }
@@ -168,7 +169,7 @@ void test_cb_add_remove(void **state)
     uint8_t a = 42;
     uint8_t b = 0;
 
-    uint8_t outcome = CB_buffer_add_item(cb, &a);
+    CB_Status_t outcome = CB_buffer_add_item(cb, &a);
     assert_int_equal(outcome, Success);
 
     outcome = CB_buffer_remove_item(cb, &b);
@@ -184,9 +185,11 @@ void test_cb_add_full(void **state)
     uint8_t a = 42;
     uint8_t i;
 
+    CB_Status_t outcome;
+
     for(i = 0; i < SIZE; i++)
     {
-        uint8_t outcome = CB_buffer_add_item(cb, &a);
+        outcome = CB_buffer_add_item(cb, &a);
         assert_int_equal(outcome, Success);
     }
 
@@ -203,7 +206,7 @@ void test_cb_is_full(void **state)
 
     for(i = 0; i < SIZE + 1; i++)
     {
-        uint8_t outcome = CB_buffer_add_item(cb, &a);
+        CB_buffer_add_item(cb, &a);
     }
 
     assert_true(CB_is_full(cb));
@@ -213,20 +216,23 @@ void test_cb_add_remove_wrap1(void **state)
 {
     CB_t* cb = ((CB_t*)*state);
 
+    CB_init(cb, SIZE);
+
     uint8_t a = 0;
     uint8_t b = 0;
     uint8_t i;
+    CB_Status_t outcome;
 
     for(i = 0; i < SIZE * 3; i++)
     {
         a = i;
 
-        uint8_t outcome = CB_buffer_add_item(cb, &a);
+        outcome = CB_buffer_add_item(cb, &a);
         assert_int_equal(outcome, Success);
-
-        uint8_t outcome = CB_buffer_remove_item(cb, &b);
+        
+        outcome = CB_buffer_remove_item(cb, &b);
         assert_int_equal(outcome, Success);
-
+        
         assert_int_equal(a, b);
     }
 }
@@ -239,17 +245,17 @@ void test_cb_add_remove_wrap2(void **state)
     uint8_t b = 0;
     uint8_t i;
 
-    uint8_t outcome = CB_buffer_add_item(cb, &a);
+    CB_Status_t outcome = CB_buffer_add_item(cb, &a);
     assert_int_equal(outcome, Success);
 
     for(i = 1; i < SIZE * 3; i++)
     {
         a = i;
 
-        uint8_t outcome = CB_buffer_add_item(cb, &a);
+        outcome = CB_buffer_add_item(cb, &a);
         assert_int_equal(outcome, Success);
 
-        uint8_t outcome = CB_buffer_remove_item(cb, &b);
+        outcome = CB_buffer_remove_item(cb, &b);
         assert_int_equal(outcome, Success);
 
         assert_int_equal(a - 1, b);
@@ -260,9 +266,11 @@ void test_cb_remove_empty1(void **state)
 {
     CB_t* cb = ((CB_t*)*state);
 
+    CB_init(cb, SIZE);
+
     uint8_t a = 0;
 
-    uint8_t outcome = CB_buffer_remove_item(cb, &a);
+    CB_Status_t outcome = CB_buffer_remove_item(cb, &a);
     assert_int_equal(outcome, BufferEmpty);
 }
 
@@ -272,20 +280,20 @@ void test_cb_remove_empty2(void **state)
 
     uint8_t a = 0;
 
-    uint8_t outcome = CB_buffer_add_item(cb, &a);
+    CB_Status_t outcome = CB_buffer_add_item(cb, &a);
     assert_int_equal(outcome, Success);
 
-    uint8_t outcome = CB_buffer_remove_item(cb, &a);
+    outcome = CB_buffer_remove_item(cb, &a);
     assert_int_equal(outcome, Success);
 
-    uint8_t outcome = CB_buffer_remove_item(cb, &a);
+    outcome = CB_buffer_remove_item(cb, &a);
     assert_int_equal(outcome, BufferEmpty);
 }
 
 
 int main(int argc, char **argv)
 {
-    const struct CMUnitTest template_tests[] = 
+    const struct CMUnitTest cbuff_tests[] = 
     {
         cmocka_unit_test(test_cb_add_null),
         cmocka_unit_test(test_cb_remove_null),
@@ -310,5 +318,5 @@ int main(int argc, char **argv)
         cmocka_unit_test(test_cb_remove_empty2),
     };
 
-    return cmocka_run_group_tests(template_tests, group_setup, group_teardown);
+    return cmocka_run_group_tests(cbuff_tests, group_setup, group_teardown);
 }

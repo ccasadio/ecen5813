@@ -25,23 +25,24 @@
 
 typedef struct
 {
-	void* bufferStart;
-	void* bufferEnd;
-	void* head;
-	void* tail;
+	uint8_t* bufferStart;
+	uint8_t* bufferEnd;
+	uint8_t* head;
+	uint8_t* tail;
 	size_t dataNum;
-	size_t dataCapacity
+	size_t dataCapacity;
 } CB_t;
 
 typedef enum
 {
-	Success = 0;
-	BufferFull;
-	BufferEmpty;
-	NullPointer;
-	NoLength;
-	NotInit;
-	BufferAllocationFailure;
+	Success = 0,
+	BufferFull,
+	BufferEmpty,
+	NullPointer,
+	NoLength,
+	NotInit,
+	BufferAllocationFailure,
+	TooFewElements,
 } CB_Status_t;
 
 
