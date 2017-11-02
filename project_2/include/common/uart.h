@@ -37,7 +37,7 @@ typedef enum
  *
  * @return 
  */
-UART_Status_t UART_configure ();
+UART_Status_t UART_configure(uint16_t baud);
 
 
 /**
@@ -47,7 +47,7 @@ UART_Status_t UART_configure ();
  *
  * @return 
  */
- UART_Status_t UART_send (unint8_t* data);
+UART_Status_t UART_send (unint8_t* data);
 
 
 /**
@@ -58,7 +58,7 @@ UART_Status_t UART_configure ();
  *
  * @return
  */
- UART_Status_t UART_send_n (unint8_t* data, size_t length);
+UART_Status_t UART_send_n (unint8_t* data, size_t length);
 
 
  /**
@@ -80,11 +80,3 @@ UART_Status_t UART_configure ();
  * @return
  */
  UART_Status_t UART_receive_n (unint8_t* buffer, size_t length);
-
-
- /**
- * @brief UART0 IRQ handler
- *
- * @return void
- */
- void UART0_IRQHandler();
